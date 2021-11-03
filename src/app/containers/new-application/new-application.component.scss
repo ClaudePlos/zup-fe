@@ -1,0 +1,316 @@
+@import "../../../styles";
+
+.page {
+  margin-left: 10px;
+
+  @include md {
+    margin-left: 10px;
+  }
+}
+
+.form {
+}
+
+.mat-toolbar {
+  height: 30px;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+mat-form-field {
+  font-size: 0.9em;
+  width: 275px;
+}
+
+mat-card {
+  font-size: 0.9em;
+  width: 550px;
+}
+
+.findByNumber {
+
+  @include md {
+
+  }
+}
+
+.findByNumberError {
+  color: red;
+  width: 70%;
+}
+
+.application_start-end-work-date {
+  display: flex;
+  flex-direction: row;
+  @include md {
+    flex-direction: column;
+  }
+
+  .start-date {
+  }
+
+  .end-date {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+}
+
+.application_personalNumber-surname-name {
+  display: flex;
+  flex-direction: row;
+
+  .personalNumber {
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .name {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .surname {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  @include md {
+    flex-direction: column;
+  }
+
+}
+
+.application_cost-position-localization-other-localization {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+
+  @include md {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .cost-position {
+  }
+
+  .localization {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .other-localization {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+}
+
+.application_modelFunctionalityOn {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+
+  @include md {
+    flex-direction: column;
+  }
+}
+
+.application_services {
+  display: flex;
+  flex-direction: row;
+
+  @include md {
+    flex-direction: column;
+  }
+
+  .services {
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .platnik-items {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+}
+
+.application_company_modules_hrgroups {
+  display: flex;
+  flex-direction: row;
+
+  @include md {
+    flex-direction: column;
+    margin-top: 5px;
+  }
+
+  .company {
+    margin-top: 15px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .modules {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .hrGroups {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .modelFunctionallityOn {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+
+    @include md {
+      flex-direction: column;
+      margin-left: 0;
+      margin-top: 5px;
+    }
+
+  }
+}
+
+.application_manager-fill-worker-contact-phone {
+  display: flex;
+  flex-direction: row;
+
+  @include md {
+    flex-direction: column;
+  }
+
+  .manager {
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .fill-worker {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .contact-phone {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+}
+
+.additionalEquipmentAndAddress {
+  display: flex;
+  flex-direction: row;
+
+  @include md {
+    flex-direction: column;
+  }
+
+  .additionalEquipment {
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+
+  .additionalEquipmentAddress {
+    margin-left: 10px;
+
+    @include md {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
+}
+
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 10px;
+
+}
+
+.line {
+  flex: 1;
+}
+
+.text {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.submit-button {
+  margin-left: 10px;
+}
+
+mat-error {
+
+}
+
+.mat-hint-row-display{
+  display: flex;
+  flex-direction: row;
+}
+
+mat-hint{
+  color: red;
+}
+
+.modelFunctionalityOn-hint{
+  color: blue;
+}

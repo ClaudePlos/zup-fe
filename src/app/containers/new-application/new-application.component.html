@@ -1,0 +1,281 @@
+<div *ngIf="loggedUser" class="page">
+  <mat-toolbar>Nowy wniosek o uprawnienia</mat-toolbar>
+  <div>
+    <form [formGroup]="applicationForm" class="form">
+
+      <div *ngIf="worker">
+
+        <div class="findByNumber">
+          <mat-form-field appearance="outline">
+            <mat-label>Wyszukiwanie pracownika</mat-label>
+            <input matInput placeholder="Proszę podać numer PESEL" #personalNumber>
+            <button matSuffix mat-icon-button aria-label="Szukaj" color="primary"
+                    [disabled]="!enabledFindBy(personalNumber.value)" (click)="getWorker(personalNumber.value)">
+              <mat-icon>person_search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="worker">
+          <div *ngIf="worker.surname">
+            <div class="application_personalNumber-surname-name" formGroupName="worker">
+              <div class="personalNumber">
+                <mat-form-field appearance="outline">
+                  <mat-label>PESEL</mat-label>
+                  <input matInput placeholder="PESEL" formControlName="personalNumber">
+                </mat-form-field>
+              </div>
+
+              <div class="name">
+                <mat-form-field appearance="outline">
+                  <mat-label>Imię</mat-label>
+                  <input matInput placeholder="Imię" formControlName="name">
+                </mat-form-field>
+              </div>
+
+              <div class="surname">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nazwisko</mat-label>
+                  <input matInput placeholder="Nazwisko" formControlName="surname">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <mat-error *ngIf="!worker">
+        Pracownik o wskazanym numerze PESEL nie został znaleziony.
+        Przejdź do <a href="https://i.naprzod.pl">i.naprzod.pl</a> aby zgłosić nowego pracownika.
+      </mat-error>
+
+      <div *ngIf="worker">
+        <div *ngIf="worker.surname">
+          <div class="application_start-end-work-date">
+            <div class="start-date">
+              <mat-form-field appearance="outline">
+                <mat-label>Data rozpoczęcia pracy *</mat-label>
+                <input matInput [matDatepicker]="startWorkDatePicker" placeholder="Data rozpoczęcia pracy"
+                       formControlName="startWorkDate" autocomplete="off" readonly>
+                <mat-datepicker-toggle matSuffix [for]="startWorkDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startWorkDatePicker></mat-datepicker>
+                <mat-hint *ngIf="!isStartWorkDateRequiredValid">
+                  Pole jest wymagane
+                </mat-hint>
+                <mat-hint *ngIf="!isStartEndWorkDateComparisonValid">
+                  Zakres dat nie jest poprawny
+                </mat-hint>
+              </mat-form-field>
+
+            </div>
+            <div class="end-date">
+              <mat-form-field appearance="outline">
+                <mat-label>Data zakończenia umowy</mat-label>
+                <input matInput [matDatepicker]="endWorkDatePicker" placeholder="Data zakończenia umowy"
+                       formControlName="endWorkDate" autocomplete="off" readonly #endWorkDate>
+                <button *ngIf="endWorkDate.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="clearEndWorkDate()">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-datepicker-toggle matSuffix [for]="endWorkDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endWorkDatePicker></mat-datepicker>
+                <mat-hint *ngIf="!isStartEndWorkDateComparisonValid">
+                  Zakres dat nie jest poprawny
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="application_cost-position-localization-other-localization" formGroupName="localization">
+
+            <div class="cost-position">
+              <mat-form-field appearance="outline">
+                <mat-label>Stanowisko kosztów</mat-label>
+                <mat-select formControlName="costPosition">
+                  <mat-select-filter [placeholder]="'Filtruj'" [displayMember]="'costPosition'" [array]="localizations"
+                                     (filteredReturn)="filteredLocalizations = $event" [showSpinner]="true"
+                                     [noResultsMessage]="'Brak wyników'"></mat-select-filter>
+                  <mat-option value="Bez stanowiska kosztów">Bez stanowiska kosztów</mat-option>
+                  <mat-option *ngFor="let localization of filteredLocalizations"
+                              [value]="localization">{{localization.costPosition}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!--            <div class="cost-position">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Stanowisko kosztów</mat-label>
+                            <mat-select formControlName="costPosition">
+                              <mat-option value="Bez stanowiska kosztów">Bez stanowiska kosztów</mat-option>
+                              <mat-option *ngFor="let localization of localizations"
+                                          [value]="localization">{{localization.costPosition}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>-->
+
+            <div class="localization" *ngIf="showLOCALIZATION">
+              <mat-form-field appearance="outline">
+                <mat-label>Lokalizacja</mat-label>
+                <input matInput placeholder="Lokalizacja" formControlName="officeLocalization">
+              </mat-form-field>
+            </div>
+
+            <div class="other-localization" *ngIf="showLOCALIZATION">
+              <mat-form-field appearance="outline">
+                <mat-label>Lokalizacja jeżeli inna niż ze stan. kosztów</mat-label>
+                <input matInput placeholder="Inna lokalizacja" formControlName="otherOfficeLocalization"
+                       autocomplete="off">
+                <button matSuffix mat-icon-button
+                        matTooltip="Jeżeli adres świadczenia pracy jest inny niż wynikający ze stanowiska kosztów (pole [Lokalizacja]), to należy podać adres, pod którym fakycznie świadczona jest praca">
+                  <mat-icon>help_outline</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="application_manager-fill-worker-contact-phone" formGroupName="manager">
+            <div class="manager">
+              <mat-form-field appearance="outline">
+                <mat-label>Imię i nazwisko przełożonego</mat-label>
+                <input matInput placeholder="Imię i nazwisko przełożonego" formControlName="manager" autocomplete="off">
+                <mat-hint *ngIf="!isManagerRequiredValid">
+                  Należy wskazać przełożonego dla pracownika
+                </mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="fill-worker">
+              <mat-form-field appearance="outline">
+                <mat-label>Pracownik wypełniający zgłoszenie</mat-label>
+                <input matInput placeholder="Pracownik wypełniający zgłoszenie" formControlName="fillWorker">
+              </mat-form-field>
+            </div>
+            <div class="contact-phone">
+              <mat-form-field appearance="outline">
+                <mat-label>Telefon kontaktowy do zgłaszającego</mat-label>
+                <input matInput placeholder="Telefon kontaktowy do zgłaszającego" formControlName="contactPhone"
+                       autocomplete="off">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="application_services" formGroupName="services">
+            <div class="services">
+              <mat-form-field appearance="outline">
+                <mat-label>Usługi</mat-label>
+                <mat-select formControlName="servicesItems" multiple>
+                  <mat-option value="e-learning (wym. dla administracji)" [disabled]="disabledElearningWhenA">e-learning
+                    (wym. dla administracji)
+                  </mat-option>
+                  <mat-option *ngFor="let service of services"
+                              [value]="service">{{service}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="platnik-items" *ngIf="showPlatnikItems">
+              <mat-form-field appearance="outline">
+                <mat-label>Lista firm w PŁATNIKU</mat-label>
+                <mat-select formControlName="platnikServiceItems" multiple>
+                  <mat-option *ngFor="let platnikItem of platnikItems"
+                              [value]="platnikItem">{{platnikItem}}</mat-option>
+                </mat-select>
+                <button matSuffix mat-icon-button
+                        matTooltip="Lista firm dostępnych w PLATNIKU">
+                  <mat-icon>help_outline</mat-icon>
+                </button>
+                <mat-hint *ngIf="!platnikItemsRequiredValid">W polu usługi wskazano PLATNIKA, mnależy podać do
+                  jakich firm ma byc dostęp
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="application_company_modules_hrgroups" formGroupName="egeriaCompany">
+
+            <div class="company">
+              <mat-slide-toggle formControlName="company">EGERIA</mat-slide-toggle>
+            </div>
+
+            <div class="modules">
+              <mat-form-field appearance="outline">
+                <mat-label>Moduły</mat-label>
+                <mat-select formControlName="modules" multiple>
+                  <mat-option *ngFor="let egeriaModuleItem of egeriaModuleItems"
+                              [value]="egeriaModuleItem">{{egeriaModuleItem}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="modelFunctionallityOn" *ngIf="showEK">
+
+              <mat-form-field appearance="outline" class="company-items-select-items">
+                <mat-label>Wzorować funkcjonaność jak dla użytkownika</mat-label>
+                <input matInput placeholder="Login lub email użytkownika" formControlName="modelFunctionalityOn"
+                       autocomplete="off">
+                <mat-hint class="modelFunctionalityOn-hint">Dotyczy tylko Ewidencji Kadrowej (EK)</mat-hint>
+                <button matSuffix mat-icon-button
+                        matTooltip="W przpadku wskazania modułu EK można wskazać na jakim użytkowniku wzorować funkcjonalność">
+                  <mat-icon>help_outline</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <div class="hrGroups" *ngIf="showEK">
+              <mat-form-field appearance="outline" class="company-items-select-items">
+                <mat-label>Grupy dostępu w kadrach</mat-label>
+                <input matInput placeholder="Grupy dostępu w kadrach" formControlName="hrGroups" autocomplete="off">
+                <mat-hint class="modelFunctionalityOn-hint">Dotyczy tylko Ewidencji Kadrowej (EK)</mat-hint>
+                <button matSuffix mat-icon-button
+                        matTooltip="W przpadku wskazania modułu EK można wskazać grupy uprawnień dla użytkownika">
+                  <mat-icon>help_outline</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+
+          </div>
+
+          <div class="additionalEquipmentAndAddress">
+            <div class="additionalEquipment">
+              <mat-form-field appearance="outline">
+                <mat-label>Sprzęt dodatkowy</mat-label>
+                <mat-select formControlName="additionalEquipments" multiple>
+                  <mat-option *ngFor="let additionalEquipment of additionalEquipments"
+                              [value]="additionalEquipment">{{additionalEquipment}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="additionalEquipmentAddress">
+              <mat-form-field appearance="outline">
+                <mat-label>Adres wysyłki sprzętu</mat-label>
+                <input matInput placeholder="Adres wysyłki sprzętu" formControlName="additionalEquipmentsAddress"
+                       autocomplete="off">
+                <button matSuffix mat-icon-button matTooltip="Należy podać adres, na który zostanie przesłany sprzęt">
+                  <mat-icon>help_outline</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="submit-button">
+            <button mat-raised-button type="submit" color="primary" [disabled]="!isFormValid"
+                    (click)="saveNewTask(applicationForm.getRawValue())">
+              Zapisz
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+
+    </form>
+
+
+    <app-loader [loading]="loading"></app-loader>
+
+  </div>
+</div>
+
+<div *ngIf="!loggedUser">
+  Aby skorzystać z formularza użyj przekierowania ze strony <a href="https://task.naprzod.pl">task.naprzod.pl</a>
+</div>

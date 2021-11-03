@@ -1,0 +1,48 @@
+@import "../styles";
+
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 220px;
+  p{
+    font-size: 12px;
+  }
+
+  @include md{
+    width: 100%;
+  }
+
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+}
+
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  height: 50px;
+  font-size: 14px;
+  background: #00b1a9;
+}
+
+.sidenav-toolbar{
+  display: flex;
+}
+
+.sidenav-toolbar-menu_icon{
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.sidenav-toolbar-menu_title{
+  display: flex;
+  flex: 8;
+  justify-content: center;
+  align-items: center;
+}

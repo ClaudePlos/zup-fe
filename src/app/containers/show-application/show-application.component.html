@@ -1,0 +1,284 @@
+<div>
+  <div *ngIf="!task">
+    <mat-toolbar>Wniosek o uprawnienia</mat-toolbar>
+    <input matInput #uuid>
+    <button mat-button (click)="show(uuid.value)">Pokaż zgłoszenie</button>
+    Wyszukaj zgłoszenie aby podejrzeć właściwości
+  </div>
+
+  <div *ngIf="task">
+
+    <br>
+    <br>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">ZGLOSZENIE SD</th>
+        <th scope="col">WNIOSEK</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td data-label="ZGLOSZENIE SD">{{task.taskId}}</td>
+        <td data-label="WNIOSEK">{{task.id}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <br>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">PESEL</th>
+        <th scope="col">IMIĘ</th>
+        <th scope="col">NAZWISKO</th>
+        <th scope="col">DATA ROZPOCZĘCIA PRACY</th>
+        <th scope="col">DATA ZAKONCZENIA PRACY</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td data-label="PESEL">{{task.properties.worker.personalNumber}}</td>
+        <td data-label="IMIĘ">{{task.properties.worker.name}}</td>
+        <td data-label="NAZWISKO">{{task.properties.worker.surname}}</td>
+        <td data-label="DATA ROZPOCZĘCIA PRACY">{{task.properties.startWorkDate | date:'shortDate'}}</td>
+        <td
+          data-label="DATA ZAKONCZENIA PRACY">{{task.properties.endWorkDate ? (task.properties.endWorkDate | date: 'shortDate') : '-'}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <br>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">Stanowisko kosztów</th>
+        <th scope="col">Lokalizacja ze stanowiska kosztów</th>
+        <th scope="col">Lokalizacja jeżeli inna</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td
+          data-label="Stanowisko kosztów">{{task.properties.localization.costPosition.costPosition ? task.properties.localization.costPosition.costPosition : '-'}}</td>
+        <td
+          data-label="Lokalizacja ze stanowiska kosztów">{{task.properties.localization.costPosition.officeLocalization ? task.properties.localization.costPosition.officeLocalization : '-'}}</td>
+        <td
+          data-label="Lokalizacja jeżeli inna">{{task.properties.localization.otherOfficeLocalization ? task.properties.localization.otherOfficeLocalization : '-'}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <br>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">PRZELOŻONY</th>
+        <th scope="col">ZGLASZAJACY</th>
+        <th scope="col">TELEFON DO ZGLASZAJĄCEGO</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td
+          data-label="PRZELOŻONY">{{task.properties.manager.manager ? task.properties.manager.manager : '-'}}</td>
+        <td
+          data-label="ZGLASZAJACY">{{task.properties.manager.fillWorker ? task.properties.manager.fillWorker : '-'}}</td>
+        <td
+          data-label="TELEFON DO ZGLASZAJĄCEGO">{{task.properties.manager.contactPhone ? task.properties.manager.contactPhone : '-'}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <br>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">USLUGI</th>
+        <th scope="col">LISTA FIRM W PLATNIKU</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td data-label="USLUGI" *ngIf="task.properties.services.servicesItems">
+          <ul style="list-style-type:none;">
+            <li *ngFor="let service of task.properties.services.servicesItems">{{service}}</li>
+          </ul>
+        </td>
+        <td data-label="USLUGI" *ngIf="!task.properties.services.servicesItems">-</td>
+        <td data-label="LISTA FIRM W PLATNIKU" *ngIf="task.properties.services.platnikServiceItems">
+          <ul style="list-style-type:none;">
+            <li *ngFor="let pservice of task.properties.services.platnikServiceItems">{{pservice}}</li>
+          </ul>
+        </td>
+        <td data-label="LISTA FIRM W PLATNIKU" *ngIf="!task.properties.services.platnikServiceItems">-</td>
+      </tr>
+      </tbody>
+    </table>
+
+
+    <br>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">DOSTĘP DO EGERII</th>
+        <th scope="col">MODULY</th>
+        <th scope="col">UPRAWNIENIA DO EK TAK JAK U</th>
+        <th scope="col">GRUPY DOSTĘPÓW W KADRACH</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td
+          data-label="DOSTĘP DO EGERII">{{task.properties.egeriaCompany.company ? (task.properties.egeriaCompany.company ? 'TAK' : 'NIE') : '-'}}</td>
+        <td data-label="MODULY" *ngIf="task.properties.egeriaCompany.modules">
+          <ul style="list-style-type:none;">
+            <li *ngFor="let module of task.properties.egeriaCompany.modules">{{module}}</li>
+          </ul>
+        </td>
+        <td data-label="MODULY" *ngIf="!task.properties.egeriaCompany.modules">-</td>
+        <td
+          data-label="UPRAWNIENIA DO EK TAK JAK U">{{task.properties.egeriaCompany.modelFunctionalityOn ? task.properties.egeriaCompany.modelFunctionalityOn : '-'}}</td>
+        <td
+          data-label="GRUPY DOSTĘPU W KADRACH">{{task.properties.egeriaCompany.hrGroups ? task.properties.egeriaCompany.hrGroups : '-'}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+
+    <br>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">SPRZĘT DODATKOWY</th>
+        <th scope="col">ADRES WYSYLKI SPRZĘTU</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td data-label="SPRZĘT DODATKOWY" *ngIf="task.properties.additionalEquipments">
+          <ul style="list-style-type:none;">
+            <li *ngFor="let equipment of task.properties.additionalEquipments">{{equipment}}</li>
+          </ul>
+        </td>
+        <td data-label="SPRZĘT DODATKOWY" *ngIf="!task.properties.additionalEquipments">-</td>
+        <td
+          data-label="ADRES WYSYLKI SPRZĘTU">{{task.properties.additionalEquipmentsAddress ? task.properties.additionalEquipmentsAddress : '-'}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+
+    <!--<form [formGroup]="applicationForm" class="form">
+      <div class="application_personalNumber-surname-name" formGroupName="worker">
+        <div class="personalNumber">
+          <mat-form-field appearance="outline">
+            <mat-label>PESEL</mat-label>
+            <input matInput placeholder="PESEL" formControlName="personalNumber">
+          </mat-form-field>
+        </div>
+        <div class="name">
+          <mat-form-field appearance="outline">
+            <mat-label>Imię</mat-label>
+            <input matInput placeholder="Imię" formControlName="name">
+          </mat-form-field>
+        </div>
+        <div class="surname">
+          <mat-form-field appearance="outline">
+            <mat-label>Nazwisko</mat-label>
+            <input matInput placeholder="Nazwisko" formControlName="surname">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="application_start-end-work-date">
+        <div class="start-date">
+          <mat-form-field appearance="outline">
+            <mat-label>Data rozpoczęcia pracy</mat-label>
+            <input matInput [matDatepicker]="startWorkDatePicker" placeholder="Data rozpoczęcia pracy"
+                   formControlName="startWorkDate">
+            <mat-datepicker-toggle matSuffix [for]="startWorkDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startWorkDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="end-date">
+          <mat-form-field appearance="outline">
+            <mat-label>Data zakończenia umowy</mat-label>
+            <input matInput [matDatepicker]="endWorkDatePicker" placeholder="Data zakończenia umowy"
+                   formControlName="endWorkDate">
+            <mat-datepicker-toggle matSuffix [for]="endWorkDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endWorkDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="application_cost-position-localization-other-localization" formGroupName="localization">
+        <div class="cost-position">
+          <mat-form-field appearance="outline">
+            <mat-label>Stanowisko kosztów</mat-label>
+            <input matInput placeholder="Stanowisko kosztów" formControlName="costPosition">
+          </mat-form-field>
+        </div>
+        <div class="localization">
+          <mat-form-field appearance="outline">
+            <mat-label>Lokalizacja</mat-label>
+            <input matInput placeholder="Lokalizacja" formControlName="officeLocalization">
+          </mat-form-field>
+        </div>
+        <div class="other-localization">
+          <mat-form-field appearance="outline">
+            <mat-label>Inna lokalizacja</mat-label>
+            <input matInput placeholder="Inna lokalizacja" formControlName="otherOfficeLocalization">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="application_manager-fill-worker-contact-phone" formGroupName="manager">
+        <div class="manager">
+          <mat-form-field appearance="outline">
+            <mat-label>Imię i nazwisko przełożonego</mat-label>
+            <input matInput placeholder="Imię i nazwisko przełożonego" formControlName="manager">
+          </mat-form-field>
+        </div>
+        <div class="fill-worker">
+          <mat-form-field appearance="outline">
+            <mat-label>Pracownik wypełniający zgłoszenie</mat-label>
+            <input matInput placeholder="Pracownik wypełniający zgłoszenie" formControlName="fillWorker">
+          </mat-form-field>
+        </div>
+        <div class="contact-phone">
+          <mat-form-field appearance="outline">
+            <mat-label>Telefon kontaktowy do zgłaszającego</mat-label>
+            <input matInput placeholder="Telefon kontaktowy do zgłaszającego" formControlName="contactPhone">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="application_services" formGroupName="services">
+        <div class="services">
+          <mat-form-field appearance="fill">
+            <mat-label>Usługi</mat-label>
+            <mat-chip-list formControlName="servicesItems">
+              <mat-chip *ngFor="let service of task.properties.services.servicesItems">{{service}}</mat-chip>
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+        <div class="platnik-items">
+          <mat-form-field appearance="fill">
+            <mat-label>Lista firm w PŁATNIKU</mat-label>
+            <mat-chip-list formControlName="platnikServiceItems">
+              <mat-chip
+                *ngFor="let platnikItem of task.properties.services.platnikServiceItems">{{platnikItem}}</mat-chip>
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </form>-->
+  </div>
+
+
+  <app-loader [loading]="loading"></app-loader>
+</div>
+

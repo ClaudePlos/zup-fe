@@ -1,0 +1,18 @@
+<div *ngIf="!loading">
+  <div *ngIf="newTaskInfo">
+    <h2 mat-dialog-title>Potwierdzenie</h2>
+    <mat-dialog-content class="mat-typography">
+      Utworzono zadanie na Help Desk: {{newTaskInfo.taskId}}
+      UUID wniosku {{newTaskInfo.id}}
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button [mat-dialog-close]="true">OK</button>
+    </mat-dialog-actions>
+  </div>
+  <div *ngIf="!newTaskInfo">
+
+  </div>
+
+</div>
+
+<app-loader [loading]="loading"></app-loader>

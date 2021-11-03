@@ -1,0 +1,182 @@
+<!--
+<mat-toolbar>Nowy wniosek o uprawnienia</mat-toolbar>
+
+{{application | json}}
+
+<div>
+  <app-loader [loading]="loading"></app-loader>
+</div>
+
+  <form class="form" #app="ngForm">
+
+    <div class="application_personalNumber-surname-name">
+      <div class="personalNumber">
+        <mat-form-field appearance="outline">
+          <mat-label>PESEL</mat-label>
+          <input matInput placeholder="PESEL" #personalNumber required [(ngModel)]="application.worker.personalNumber"
+                 name="personalNumber">
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="getWorkerFromEgeria(personalNumber.value)">
+            <mat-icon>person_search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="name">
+        <mat-form-field appearance="outline">
+          <mat-label>Imię</mat-label>
+          <input matInput placeholder="Imię" [(ngModel)]="application.worker.name" name="name" disabled required>
+        </mat-form-field>
+      </div>
+
+      <div class="surname">
+        <mat-form-field appearance="outline">
+          <mat-label>Nazwisko</mat-label>
+          <input matInput placeholder="Nazwisko" [(ngModel)]="application.worker.surname" name="surname" disabled
+                 required>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="application_start-end-work-date">
+      <div class="start-date">
+        <mat-form-field appearance="outline">
+          <mat-label>Data rozpoczęcia pracy</mat-label>
+          <input matInput [matDatepicker]="startWorkDatePicker" placeholder="Data rozpoczęcia pracy"
+                 [(ngModel)]="application.startWorkDate" name="startWorkDate">
+          <mat-datepicker-toggle matSuffix [for]="startWorkDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startWorkDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="end-date">
+        <mat-form-field appearance="outline">
+          <mat-label>Data zakończenia umowy</mat-label>
+          <input matInput [matDatepicker]="endWorkDatePicker" placeholder="Data zakończenia umowy"
+                 [(ngModel)]="application.endWorkDate" name="endWorkDate">
+          <mat-datepicker-toggle matSuffix [for]="endWorkDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endWorkDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="application_cost-position-localization-other-localization">
+
+      <div class="cost-position">
+        <mat-form-field appearance="outline">
+          <mat-label>Stanowisko kosztów</mat-label>
+          <mat-select [(ngModel)]="application.localization" name="localization">
+            <mat-option value="none">Bez stanowiska kosztów</mat-option>
+            <mat-option *ngFor="let localization of localizations"
+                        [value]="localization">{{localization.code}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="localization-city">
+        <mat-form-field appearance="outline">
+          <mat-label>Miasto</mat-label>
+          <input matInput placeholder="Miasto" [(ngModel)]="application.localization.address" name="city" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="localization-address">
+        <mat-form-field appearance="outline">
+          <mat-label>Adres</mat-label>
+          <input matInput placeholder="Adres" [(ngModel)]="application.localization.address" name="address" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="other-localization">
+        <mat-form-field appearance="outline">
+          <mat-label>Inna lokalizacja</mat-label>
+          <input matInput placeholder="Inna lokalizacja" [(ngModel)]="application.otherOfficeLocalization"
+                 name="otherOfficeLocalization">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="application_manager-fill-worker-contact-phone">
+      <div class="manager">
+        <mat-form-field appearance="outline">
+          <mat-label>Imię i nazwisko przełożonego</mat-label>
+          <input matInput placeholder="Imię i nazwisko przełożonego" [(ngModel)]="application.manager.manager"
+                 name="manager">
+        </mat-form-field>
+      </div>
+      <div class="fill-worker">
+        <mat-form-field appearance="outline">
+          <mat-label>Pracownik wypełniający zgłoszenie</mat-label>
+          <input matInput placeholder="Pracownik wypełniający zgłoszenie" [(ngModel)]="application.manager.fillWorker"
+                 name="fillWorker">
+        </mat-form-field>
+      </div>
+      <div class="contact-phone">
+        <mat-form-field appearance="outline">
+          <mat-label>Telefon kontaktowy do zgłaszającego</mat-label>
+          <input matInput placeholder="Telefon kontaktowy do zgłaszającego"
+                 [(ngModel)]="application.manager.contactPhone" name="contactPhone">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="application_services">
+      <div class="services">
+        <mat-form-field appearance="outline">
+          <mat-label>Usługi</mat-label>
+          <mat-select [(ngModel)]="application.services.services" name="services" multiple>
+            <mat-option *ngFor="let service of services" [value]="service">{{service}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="application_company_modules_hrgroups">
+
+      <div class="company">
+        <mat-slide-toggle [(ngModel)]="application.egeriaCompany.company" name="company">EGERIA</mat-slide-toggle>
+      </div>
+
+      <div class="modules">
+        <mat-form-field appearance="outline">
+          <mat-label>Moduły</mat-label>
+          <mat-select [(ngModel)]="application.egeriaCompany.modules" name="modules" multiple>
+            <mat-option *ngFor="let module of modules" [value]="module">{{module}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="groups">
+        <mat-form-field appearance="outline">
+          <mat-label>Grupy dostępu w kadrach (dla modułu EK)</mat-label>
+          <input matInput placeholder="Grupy dostępu w kadrach (dla modułu EK)"
+                 [(ngModel)]="application.egeriaCompany.ekModule.groups" name="groups">
+        </mat-form-field>
+      </div>
+
+      <div class="modelFunctionalityOn">
+        <mat-form-field appearance="outline">
+          <mat-label>Wzorować funkcjonalność na użytkowniku (dla modułu EK)</mat-label>
+          <input matInput placeholder="Wzorować funkcjonalność na użytkowniku (dla modułu EK)"
+                 [(ngModel)]="application.egeriaCompany.ekModule.modelFunctionalityOn" name="modelFunctionalityOn">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="additionalEquipment">
+      <mat-form-field appearance="outline">
+        <mat-label>Sprzęt dodatkowy</mat-label>
+        <mat-select [(ngModel)]="application.additionalEquipment" name="additionalEquipment" multiple>
+          <mat-option *ngFor="let additionalEquipment of additionalEquipments"
+                      [value]="additionalEquipment">{{additionalEquipment}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-card-actions>
+      <button mat-raised-button type="submit" color="primary">Przygotuj</button>
+    </mat-card-actions>
+
+  </form>
+
+
+
+-->
