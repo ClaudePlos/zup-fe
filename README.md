@@ -26,7 +26,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-
+***********************************************************************************************
 ## k.skowronski added info.
 1. After download zip from github unzip and Run in Visula Studio Code and in terminal > npm install
 2. ng serve > run project on `http://localhost:4200/`.
