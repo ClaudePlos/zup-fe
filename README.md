@@ -28,9 +28,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ***********************************************************************************************
 ## k.skowronski added info.
-1. After download zip from github unzip and Run in Visula Studio Code and in terminal > npm install
+1. After download zip from github (`https://github.com/ClaudePlos/zup-fe`) unzip and Run in Visula Studio Code and in terminal > npm install
 2. ng serve > run project on `http://localhost:4200/`.
-3. Run also backend in Intelij 
+3. Run also backend (`https://github.com/ClaudePlos/zup-be`) in Intelij 
 
 # Test development 
 1. After run project in browser: http://localhost:4200/zupui/login/[login pracownika]

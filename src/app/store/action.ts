@@ -21,7 +21,7 @@ export const PrepareNewApplicationFailure = createAction(
 
 export const GetWorkerAction = createAction(
   'GetWorkerAction',
-  props<{ payload: { personalNumber: string, isLoading: boolean } }>()
+  props<{ payload: { personalNumber: string, managerName: string, isLoading: boolean } }>()
 );
 export const GetWorkerActionSuccess = createAction(
   'GetWorkerActionSuccess',

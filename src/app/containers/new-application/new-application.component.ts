@@ -306,7 +306,8 @@ export class NewApplicationComponent implements OnInit, OnDestroy {
   }
 
   getWorker(personalNumber: string): void {
-    this.store.dispatch(TaskAction.GetWorkerAction({payload: {isLoading: true, personalNumber}}));
+    const managerName = this.loggedUser;
+    this.store.dispatch(TaskAction.GetWorkerAction({payload: {isLoading: true, personalNumber, managerName}}));
   }
 
 

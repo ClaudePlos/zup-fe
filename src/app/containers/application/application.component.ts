@@ -64,7 +64,8 @@ export class ApplicationComponent implements OnInit, OnDestroy {
   }
 
   getWorkerFromEgeria(personalNumber: string): void {
-    this.store.dispatch(TaskAction.GetWorkerAction({payload: {isLoading: true, personalNumber}}));
+    const managerName: string = '';
+    this.store.dispatch(TaskAction.GetWorkerAction({payload: {isLoading: true, personalNumber, managerName}}));
   }
 
   onChanges(): void {

@@ -23,7 +23,12 @@ export class ZupEffects {
       mergeMap(action =>
         this.service.getWorker(action.payload.personalNumber).pipe(
           map((data: GetWorkerResponse) => {
-            console.log('GetWorkerActionSuccess: ' + JSON.stringify(data.payload));
+            const workerNameAndSurname: string = this.replacePLtoENGletter(data.payload.name.toLocaleLowerCase()+data.payload.surname.toLowerCase());
+            if (action.payload.managerName.toLowerCase() === workerNameAndSurname.toLowerCase()){
+              alert("Nie możesz wypełniać wniosku dla siebie !");
+              return null;
+            }
+            
             return TaskAction.GetWorkerActionSuccess({payload: {isLoading: false, worker: data.payload}});
           }),
           catchError((data: Error) => {
@@ -100,6 +105,21 @@ export class ZupEffects {
       )
     )
   );
+
+
+replacePLtoENGletter(word)
+{
+  word=word.replace("ę","e");
+  word=word.replace("ó","o");
+  word=word.replace("ą","a");
+  word=word.replace("ś","s");
+  word=word.replace("ł","l");
+  word=word.replace("ż","z");
+  word=word.replace("ź","z");
+  word=word.replace("ć","c");
+  word=word.replace("ń","n");
+  return word;
+}
 
 
 }
