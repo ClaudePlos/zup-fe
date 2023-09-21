@@ -52,7 +52,7 @@ export class NewApplicationComponent implements OnInit, OnDestroy {
   worker: Worker;
   localizations: Localization[];
 
-  services: string[] = ['POCZTA', 'MAPI', 'QLIK', 'task.naprzod.pl', 'EZD', 'i.naprzod.pl', 'PŁATNIK'];
+  services: string[] = ['POCZTA', 'MAPI', 'QLIK', 'task.naprzod.pl', 'EZD', 'i.naprzod.pl', 'PŁATNIK', 'Suncode'];
   additionalEquipments: string[] = ['Telefon stacjonarny', 'Telefon komórkowy (SMARTFON)', 'Telefon komórkowy (PRZYCISKOWY)', 'Komputer stacjonarny + Monitor', 'Laptop', 'Monitor', 'Internet przenośny'];
   egeriaModuleItems: string[] = ['KG', 'GM', 'NZ', 'ST', 'CKK', 'CSS', 'GR', 'SP', 'ZK', 'EK'];
   platnikItems: string[] = [
