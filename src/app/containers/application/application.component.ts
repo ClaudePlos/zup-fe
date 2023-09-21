@@ -27,7 +27,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
 
   loading: boolean;
 
-  services: string[] = ['POCZTA', 'MAPI', 'QLIK', 'task.naprzod.pl', 'EZD', 'e-learning', 'i.naprzod.pl'];
+  services: string[] = ['POCZTA', 'MAPI', 'QLIK', 'task.naprzod.pl', 'EZD', 'e-learning', 'i.naprzod.pl', 'Suncode'];
   modules: string[] = ['KG', 'GM', 'NZ', 'ST', 'CKK', 'CSS', 'GR', 'SP', 'ZK', 'EK'];
   additionalEquipments: string[] = ['telefon', 'komputer + monitor', 'laptop', 'telefon stacjonarny'];
 
